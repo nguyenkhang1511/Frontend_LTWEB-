@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng Hợp &amp; Công Bố Kết Quả - FIT Topic</title>
+    <link rel="stylesheet" href="../css/style.css?v=4">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item active"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Tổng Hợp &amp; Công Bố Kết Quả</h1>
+                    <p style="color: #64748b; font-size: 14px;">Xem điểm thành phần, kết quả tổng hợp và công bố cho sinh viên tra cứu</p>
+                </div>
+                <div class="header-actions">
+                    <button type="button" id="btnPublishResults" class="btn btn-primary">
+                        📢 Công Bố Kết Quả Đợt Này
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-card" style="margin-bottom: 24px;">
+                <div class="filter-grid" style="grid-template-columns: minmax(260px, 1fr) auto;">
+                    <div class="form-group">
+                        <label style="display: block; color: #64748b; font-size: 13px; margin-bottom: 4px;">ĐỢT ĐĂNG KÝ</label>
+                        <div class="custom-multiselect-container" id="filterPeriodContainer" style="min-width: 280px;">
+                            <div class="custom-multiselect-box" id="filterPeriodTrigger" tabindex="0">
+                                <span class="custom-select-label placeholder" id="filterPeriodLabel">Chọn đợt đăng ký...</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="custom-multiselect-dropdown" id="filterPeriodDropdown">
+                                <div class="multiselect-search-wrapper">
+                                    <input type="text" class="multiselect-search-input" id="filterPeriodSearchInput" placeholder="Tìm kiếm đợt..." autocomplete="off">
+                                </div>
+                                <div class="multiselect-options-list" id="filterPeriodOptionsList"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="filterPeriod">
+                    </div>
+                    <button type="button" id="btnLoadResults" class="btn btn-secondary btn-filter" style="align-self: flex-end;">🔍 Xem kết quả</button>
+                </div>
+            </div>
+
+            <div class="table-card" style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>MÃ ĐT &amp; TÊN ĐỀ TÀI</th>
+                            <th>NHÓM SINH VIÊN</th>
+                            <th>ĐIỂM GVHD</th>
+                            <th>ĐIỂM GVPB</th>
+                            <th>ĐIỂM HĐ</th>
+                            <th>ĐIỂM TỔNG</th>
+                            <th>ĐIỂM CHỮ &amp; KẾT QUẢ</th>
+                            <th>TRẠNG THÁI</th>
+                            <th style="text-align: right;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="resultDetailModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 1000px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header"><h3>Chi Tiết Điểm Thành Phần</h3></div>
+            <div id="resultSummary"></div>
+            <h4 style="margin: 20px 0 10px;">Chi tiết điểm từng giảng viên</h4>
+            <div class="table-card" style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>VAI TRÒ</th>
+                            <th>GIẢNG VIÊN CHẤM</th>
+                            <th>ĐIỂM</th>
+                            <th>LỜI NHẬN XÉT</th>
+                            <th>NGÀY CHẤM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailedGradesTableBody"></tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                <button type="button" onclick="closeResultDetailModal()" class="btn btn-secondary">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin/results.js?v=2"></script>
+</body>
+</html>

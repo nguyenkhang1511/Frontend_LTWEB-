@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đợt Đăng Ký Đề Tài - FIT Topic Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR MENU BÊN TRÁI -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item active"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Quản Lý Đợt Đăng Ký Đề Tài</h1>
+                    <p style="color: #64748b; font-size: 14px;">Quản lý các đợt đăng ký (Môn học / NCKH / TLCN / KLTN) theo từng giai đoạn</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="openCreateModal()" class="btn btn-primary">
+                        <span>+</span> Tạo đợt đăng ký mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lọc & Tìm Kiếm -->
+            <div class="filter-card" style="margin-bottom: 24px;">
+                <div class="filter-grid" style="grid-template-columns: 1fr 1fr auto;">
+                    <div class="form-group">
+                        <label>LOẠI ĐỢT ĐĂNG KÝ</label>
+                        <select id="filterType">
+                            <option value="">Tất cả loại đợt</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>TRẠNG THÁI</label>
+                        <select id="filterStatus">
+                            <option value="">Tất cả trạng thái</option>
+                        </select>
+                    </div>
+
+                    <button onclick="loadRegistrationPeriods()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
+                        🔍 Lọc dữ liệu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bảng Dữ Liệu -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TÊN ĐỢT / LOẠI</th>
+                            <th>HỌC KỲ / NĂM</th>
+                            <th>HẠN GIẢNG VIÊN</th>
+                            <th>HẠN SINH VIÊN</th>
+                            <th>PHẢN BIỆN / BÁO CÁO</th>
+                            <th>TRẠNG THÁI</th>
+                            <th style="text-align: right;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="periodTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL TẠO ĐỢT ĐĂNG KÝ -->
+    <div id="createPeriodModal" class="modal">
+        <div class="modal-content" style="max-width: 680px;">
+            <div class="modal-header">
+                <h3>Tạo Đợt Đăng Ký Mới</h3>
+            </div>
+            <form id="createPeriodForm">
+                <div class="form-group">
+                    <label>Tên đợt đăng ký (*)</label>
+                    <input type="text" id="createName" placeholder="Nhập tên đợt đăng ký" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Loại đợt (*)</label>
+                        <select id="createType" required>
+                            <option value="COURSE_PROJECT">Đồ án môn học</option>
+                            <option value="SCIENTIFIC_RESEARCH">Nghiên cứu khoa học</option>
+                            <option value="SPECIALIZED_PROJECT">Tiểu luận chuyên ngành</option>
+                            <option value="GRADUATION_THESIS">Khóa luận tốt nghiệp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Học kỳ (*)</label>
+                        <input type="text" id="createSemester" placeholder="HK1 / HK2" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Năm học (*)</label>
+                        <input type="text" id="createAcademicYear" placeholder="Nhập năm học" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <input type="text" id="createDescription" placeholder="Mô tả ngắn gọn...">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bắt đầu ĐK Giảng viên</label>
+                        <input type="datetime-local" id="createLecturerRegStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kết thúc ĐK Giảng viên</label>
+                        <input type="datetime-local" id="createLecturerRegEnd" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bắt đầu ĐK Sinh viên</label>
+                        <input type="datetime-local" id="createStudentRegStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kết thúc ĐK Sinh viên</label>
+                        <input type="datetime-local" id="createStudentRegEnd" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Hạn chót phản biện</label>
+                        <input type="date" id="createReviewerDeadline" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày bảo vệ hội đồng</label>
+                        <input type="date" id="createDefenseDate" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+                    <button type="button" onclick="closeModal('createPeriodModal')" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Tạo Mới</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CẬP NHẬT ĐỢT ĐĂNG KÝ -->
+    <div id="editPeriodModal" class="modal">
+        <div class="modal-content" style="max-width: 680px;">
+            <div class="modal-header">
+                <h3>Cập Nhật Thông Tin Đợt Đăng Ký</h3>
+            </div>
+            <form id="editPeriodForm">
+                <input type="hidden" id="editPeriodId">
+                <div class="form-group">
+                    <label>Tên đợt đăng ký (*)</label>
+                    <input type="text" id="editName" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Loại đợt (*)</label>
+                        <select id="editType" required>
+                            <option value="COURSE_PROJECT">Đồ án môn học</option>
+                            <option value="SCIENTIFIC_RESEARCH">Nghiên cứu khoa học</option>
+                            <option value="SPECIALIZED_PROJECT">Tiểu luận chuyên ngành</option>
+                            <option value="GRADUATION_THESIS">Khóa luận tốt nghiệp</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Học kỳ (*)</label>
+                        <input type="text" id="editSemester" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Năm học (*)</label>
+                        <input type="text" id="editAcademicYear" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả</label>
+                        <input type="text" id="editDescription">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bắt đầu ĐK Giảng viên</label>
+                        <input type="datetime-local" id="editLecturerRegStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kết thúc ĐK Giảng viên</label>
+                        <input type="datetime-local" id="editLecturerRegEnd" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bắt đầu ĐK Sinh viên</label>
+                        <input type="datetime-local" id="editStudentRegStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kết thúc ĐK Sinh viên</label>
+                        <input type="datetime-local" id="editStudentRegEnd" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Hạn chót phản biện</label>
+                        <input type="date" id="editReviewerDeadline" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày bảo vệ hội đồng</label>
+                        <input type="date" id="editDefenseDate" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+                    <button type="button" onclick="closeModal('editPeriodModal')" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CHUYỂN TRẠNG THÁI -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Chuyển Trạng Thái Đợt</h3>
+            </div>
+            <form id="statusForm">
+                <input type="hidden" id="statusPeriodId">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Trạng thái mới (*)</label>
+                    <select id="updateStatusSelect" required>
+                        <option value="DRAFT">Nháp (DRAFT)</option>
+                        <option value="PHASE1_LECTURER_REGISTRATION">ĐK Giảng viên (PHASE1)</option>
+                        <option value="PHASE1_REVIEWING">Duyệt đề tài GV (PHASE1_REVIEWING)</option>
+                        <option value="PHASE2_STUDENT_REGISTRATION">ĐK Sinh viên (PHASE2)</option>
+                        <option value="IN_PROGRESS">Đang thực hiện (IN_PROGRESS)</option>
+                        <option value="REVIEWING">Đang phản biện (REVIEWING)</option>
+                        <option value="DEFENSE">Bảo vệ hội đồng (DEFENSE)</option>
+                        <option value="COMPLETED">Hoàn thành (COMPLETED)</option>
+                        <option value="CANCELLED">Đã hủy (CANCELLED)</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button type="button" onclick="closeModal('statusModal')" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Cập Nhật Trạng Thái</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin/periods.js"></script>
+</body>
+</html>

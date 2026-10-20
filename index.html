@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - Hệ thống quản lý đề tài</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+    <main class="login-container">
+        <section class="login-card" aria-labelledby="loginTitle">
+            <header class="login-header">
+                <h2 id="loginTitle">ĐĂNG NHẬP</h2>
+                <p>Hệ thống quản lý đề tài</p>
+            </header>
+
+            <form id="loginForm">
+                <div class="portal-input-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <div class="portal-input-wrapper">
+                        <span class="portal-input-icon" aria-hidden="true">👤</span>
+                        <input type="text" id="username" name="username" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="portal-input-group">
+                    <label for="password">Mật khẩu</label>
+                    <div class="portal-input-wrapper">
+                        <span class="portal-input-icon" aria-hidden="true">🔒</span>
+                        <input type="password" id="password" name="password" required autocomplete="current-password">
+                    </div>
+                </div>
+
+                <button type="submit" id="btnLogin" class="btn-portal-login">Đăng nhập</button>
+            </form>
+
+            <footer class="login-footer">
+                <a class="register-link" href="register.html">Đăng ký tài khoản</a>
+            </footer>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hội Đồng - Giảng Viên - FIT Topic Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR MENU BÊN TRÁI (GIẢNG VIÊN) -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">👨‍🏫</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG GIẢNG VIÊN</small>
+            </div>
+
+            <div class="sidebar-category-title">TÀI KHOẢN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">ĐỀ TÀI</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="registration-periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👥</span> Nhóm hướng dẫn</a></li>
+            </ul>
+            <div class="sidebar-category-title">CHẤM ĐIỂM</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="grading.html"><span>✍️</span> Chấm điểm hướng dẫn</a></li>
+                <li class="sidebar-menu-item"><a href="reviews.html"><span>🔍</span> Phản biện</a></li>
+                <li class="sidebar-menu-item active"><a href="councils.html"><span>🏛️</span> Hội đồng</a></li>
+            </ul>
+
+            <div class="sidebar-category-title">THÔNG TIN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📢</span> Thông báo</a></li>
+            </ul>
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="#" onclick="logout(); return false;" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Hội Đồng Bảo Vệ</h1>
+                    <p style="color: #64748b; font-size: 14px;">Hội đồng phản biện, bảo vệ theo từng đợt: chấm điểm và chốt kết quả</p>
+                </div>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+                    <div>
+                        <label for="councilPeriod" style="display: block; color: #64748b; font-size: 13px; margin-bottom: 4px;">Đợt đăng ký</label>
+                        <select id="councilPeriod" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; min-width: 320px;"></select>
+                    </div>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 14px; color: #475569; padding-bottom: 8px;">
+                        <input type="checkbox" id="onlyMyCouncils" checked> Chỉ hội đồng của tôi
+                    </label>
+                    <button type="button" id="btnReloadCouncils" class="btn btn-secondary">Tải lại</button>
+                </div>
+                <p id="councilsLoadError" role="status" style="display: none; margin-top: 12px; color: #b91c1c;"></p>
+            </div>
+
+            <div id="councilsArea"></div>
+        </main>
+    </div>
+
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/lecturer/common.js"></script>
+    <script src="../js/lecturer/councils.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Nhóm Sinh Viên - FIT Topic</title>
+    <link rel="stylesheet" href="../css/style.css?v=4">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR CHUẨN ĐỒNG BỘ CÁC TRANG ADMIN -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item active"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH -->
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Quản Lý Nhóm Sinh Viên</h1>
+                    <p style="color: #64748b; font-size: 14px;">Theo dõi danh sách nhóm sinh viên, đề tài đăng ký và trạng thái nộp báo cáo trong từng đợt</p>
+                </div>
+            </div>
+
+            <!-- BỘ LỌC TÌM KIẾM (BÁM SÁT SWAGGER QUERY PARAMS) -->
+            <div class="filter-card" style="margin-bottom: 24px;">
+                <form id="filterGroupForm" class="filter-bar">
+                    <div class="form-group" style="flex: 1 1 0; min-width: 0;">
+                        <label>ĐỢT ĐĂNG KÝ</label>
+                        <div class="custom-multiselect-container" id="filterPeriodContainer">
+                            <div class="custom-multiselect-box" id="filterPeriodTrigger" tabindex="0">
+                                <span class="custom-select-label" id="filterPeriodLabel">-- Tất cả đợt đăng ký --</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="custom-multiselect-dropdown" id="filterPeriodDropdown">
+                                <div class="multiselect-search-wrapper">
+                                    <input type="text" class="multiselect-search-input" id="filterPeriodSearchInput" placeholder="Tìm kiếm đợt..." autocomplete="off">
+                                </div>
+                                <div class="multiselect-options-list" id="filterPeriodOptionsList"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="filterPeriod" value="">
+                    </div>
+
+                    <div class="form-group" style="flex: 1 1 0; min-width: 0;">
+                        <label>TRẠNG THÁI NHÓM</label>
+                        <div class="custom-multiselect-container" id="filterStatusContainer">
+                            <div class="custom-multiselect-box" id="filterStatusTrigger" tabindex="0">
+                                <span class="custom-select-label" id="filterStatusLabel">-- Tất cả trạng thái --</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="custom-multiselect-dropdown" id="filterStatusDropdown">
+                                <div class="multiselect-search-wrapper">
+                                    <input type="text" class="multiselect-search-input" id="filterStatusSearchInput" placeholder="Tìm kiếm trạng thái..." autocomplete="off">
+                                </div>
+                                <div class="multiselect-options-list" id="filterStatusOptionsList"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="filterStatus" value="">
+                    </div>
+
+                    <div class="filter-group">
+                        <label aria-hidden="true">&nbsp;</label>
+                        <button type="submit" class="btn btn-secondary btn-filter">🔍 Lọc dữ liệu</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- BẢNG DANH SÁCH NHÓM -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>MÃ NHÓM</th>
+                            <th>TRƯỞNG NHÓM & TV</th>
+                            <th>ĐỢT ĐĂNG KÝ</th>
+                            <th>ĐỀ TÀI ĐĂNG KÝ</th>
+                            <th>BÁO CÁO</th>
+                            <th>TRẠNG THÁI</th>
+                            <th style="text-align: right;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL XEM CHI TIẾT NHÓM (GET /api/groups/{id}) -->
+    <div id="groupDetailModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 700px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0; color: #0f172a;">Chi Tiết Nhóm: <span id="modalGroupCode" style="color: #2563eb;">-</span></h3>
+                <button type="button" onclick="closeGroupModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #64748b;">✕</button>
+            </div>
+
+            <div style="background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+                <p style="margin-bottom: 6px;"><strong>Đợt đăng ký:</strong> <span id="modalPeriodName">-</span></p>
+                <p style="margin-bottom: 6px;"><strong>Đề tài đăng ký:</strong> <span id="modalTopicTitle" style="color: #1e293b; font-weight: 600;">-</span></p>
+                <p style="margin-bottom: 6px;"><strong>Giảng viên hướng dẫn:</strong> <span id="modalAdvisorName">-</span></p>
+                <p style="margin-bottom: 0;"><strong>File Báo Cáo:</strong> <span id="modalReportStatus">-</span></p>
+            </div>
+
+            <h4 style="font-size: 15px; color: #0f172a; margin-bottom: 12px;">Danh Sách Thành Viên</h4>
+            <table class="data-table" style="margin-bottom: 20px;">
+                <thead>
+                    <tr>
+                        <th>MÃ SV</th>
+                        <th>HỌ VÀ TÊN</th>
+                        <th>LỚP</th>
+                        <th>EMAIL</th>
+                        <th>VAI TRÒ</th>
+                    </tr>
+                </thead>
+                <tbody id="modalMembersTableBody"></tbody>
+            </table>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button type="button" onclick="closeGroupModal()" class="btn btn-secondary">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NHỐNG FILE SCRIPT -->
+    <script src="../js/config.js"></script>
+    <script src="../js/admin/groups.js?v=2"></script>
+</body>
+</html>

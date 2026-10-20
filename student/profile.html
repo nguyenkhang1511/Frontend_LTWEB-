@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân - Sinh Viên - FIT Topic Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR MENU BÊN TRÁI (SINH VIÊN) -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG SINH VIÊN</small>
+            </div>
+
+            <div class="sidebar-category-title">TÀI KHOẢN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item active"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">ĐỀ TÀI</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="lecturers.html"><span>👨‍🏫</span> Danh sách giảng viên</a></li>
+                <li class="sidebar-menu-item"><a href="registration-periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Đề tài đã công bố</a></li>
+                <li class="sidebar-menu-item"><a href="my-group.html"><span>👥</span> Nhóm của tôi</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>🏆</span> Kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📢</span> Thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="#" onclick="logout(); return false;" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Thông Tin Cá Nhân</h1>
+                    <p style="color: #64748b; font-size: 14px;">Xem thông tin tài khoản và đổi mật khẩu</p>
+                </div>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; max-width: 800px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Tên đăng nhập</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-username">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Mật khẩu</span>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+                            <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin: 0;">********</p>
+                            <button type="button" onclick="openPasswordModal()" class="btn btn-secondary btn-sm">Đổi mật khẩu</button>
+                        </div>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Họ và tên</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-fullname">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Email</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-email">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Số điện thoại</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-phone">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Mã sinh viên</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-code">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Vai trò</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #2563eb; margin-top: 4px;"><span id="profile-role">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Bộ môn / Khoa</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-department">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Lớp sinh viên</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-class">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Trạng thái tài khoản</span>
+                        <p id="profActive" style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Ngày tạo tài khoản</span>
+                        <p id="profCreatedAt" style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;">-</p>
+                    </div>
+                </div>
+                <p id="profileLoadError" role="status" style="display: none; margin-top: 20px; color: #b91c1c;"></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL ĐỔI MẬT KHẨU (xử lý bởi auth.js: POST /api/auth/change-password) -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Đổi Mật Khẩu</h3>
+            </div>
+            <form id="changePasswordForm">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label>Mật khẩu cũ (*)</label>
+                    <input type="password" id="oldPassword" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Mật khẩu mới (*)</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button type="button" onclick="closePasswordModal()" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/student/profile.js"></script>
+</body>
+</html>

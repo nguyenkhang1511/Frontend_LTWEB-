@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân - FIT Topic Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR MENU BÊN TRÁI -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item active"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Thông Tin Cá Nhân</h1>
+                    <p style="color: #64748b; font-size: 14px;">Quản lý thông tin tài khoản đang đăng nhập</p>
+                </div>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0; max-width: 800px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Tên đăng nhập</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-username">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Mật khẩu</span>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+                            <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin: 0;">********</p>
+                            <button type="button" onclick="openPasswordModal()" class="btn btn-secondary btn-sm">Đổi mật khẩu</button>
+                        </div>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Họ và tên</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-fullname">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Email</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-email">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Số điện thoại</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-phone">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Mã SV / GV / Admin</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-code">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Vai trò</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #2563eb; margin-top: 4px;"><span id="profile-role">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Bộ môn / Khoa</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-department">---</span></p>
+                    </div>
+                    <div class="profile-field">
+                        <span style="color: #64748b; font-size: 13px;">Lớp sinh viên</span>
+                        <p style="font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 4px;"><span id="profile-class">---</span></p>
+                    </div>
+                </div>
+                <p id="profileLoadError" role="status" style="display: none; margin-top: 20px; color: #b91c1c;"></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL ĐỔI MẬT KHẨU -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Đổi Mật Khẩu</h3>
+            </div>
+            <form id="profileChangePasswordForm">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label>Mật khẩu cũ (*)</label>
+                    <input type="password" id="oldPassword" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Mật khẩu mới (*)</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button type="button" onclick="closePasswordModal()" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin/profile.js"></script>
+</body>
+</html>

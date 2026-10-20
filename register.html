@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Ký Tài Khoản</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="card card-wide">
+        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
+        <form id="registerForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="regUsername">Tên đăng nhập</label>
+                    <input type="text" id="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Mật khẩu</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fullName">Họ và tên</label>
+                    <input type="text" id="fullName" required placeholder="Nguyễn Văn A">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="example@gmail.com">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="code">Mã SV / GV (code)</label>
+                    <input type="text" id="code" required placeholder="Ví dụ: 2001234">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="role">Vai trò</label>
+                    <select id="role" onchange="toggleStudentClassInput()">
+                        <option value="ROLE_STUDENT">Sinh viên (STUDENT)</option>
+                        <option value="ROLE_LECTURER">Giảng viên (LECTURER)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="departmentId">Bộ môn</label>
+                    <select id="departmentId" class="form-control" required>
+                        <option value="">Chọn bộ môn...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" id="studentClassGroup">
+                <label for="studentClass">Lớp sinh viên (studentClass)</label>
+                <input type="text" id="studentClass" placeholder="Ví dụ: DHCNTT17A">
+            </div>
+
+            <button type="submit" class="btn">Đăng Ký</button>
+        </form>
+        <p class="text-center">
+            Đã có tài khoản? <a href="index.html">Đăng nhập</a>
+        </p>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

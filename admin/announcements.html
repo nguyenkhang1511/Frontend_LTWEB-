@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Thông Báo Chính Thức - FIT Topic</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item active"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Quản Lý Thông Báo Chính Thức</h1>
+                    <p style="color: #64748b; font-size: 14px;">Đăng tải và quản lý các thông báo chính thức của nhà trường và khoa CNTT</p>
+                </div>
+                <div class="header-actions">
+                    <button type="button" id="btnCreateAnnouncement" class="btn btn-primary">+ Đăng thông báo mới</button>
+                </div>
+            </div>
+
+            <section class="filter-card" style="margin-bottom: 24px;">
+                <div class="filter-grid" style="grid-template-columns: minmax(200px, 0.7fr) minmax(260px, 1fr) auto;">
+                    <div class="form-group">
+                        <label for="filterTargetRole">ĐỐI TƯỢNG NHẬN</label>
+                        <select id="filterTargetRole">
+                            <option value="ALL">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchTitle">TÌM THEO TIÊU ĐỀ</label>
+                        <input type="search" id="searchTitle" placeholder="Nhập tiêu đề thông báo">
+                    </div>
+                    <button type="button" id="btnSearchAnnouncements" class="btn btn-secondary btn-filter" style="align-self: flex-end;">Tìm kiếm</button>
+                </div>
+            </section>
+
+            <div class="table-card" style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>STT / ID</th>
+                            <th>GHIM</th>
+                            <th>TIÊU ĐỀ THÔNG BÁO</th>
+                            <th>ĐỐI TƯỢNG NHẬN</th>
+                            <th>TỆP ĐÍNH KÈM</th>
+                            <th>NGƯỜI ĐĂNG</th>
+                            <th>NGÀY ĐĂNG</th>
+                            <th style="text-align: right;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="announcementsTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="announcementModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 720px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header"><h3 id="announcementModalTitle">Đăng thông báo mới</h3></div>
+            <form id="announcementForm">
+                <input type="hidden" id="announcementId">
+                <div class="form-group">
+                    <label for="announcementTitle">TIÊU ĐỀ *</label>
+                    <input type="text" id="announcementTitle" maxlength="255" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="announcementTargetRole">ĐỐI TƯỢNG NHẬN *</label>
+                        <select id="announcementTargetRole" required>
+                            <option value="ALL">Tất cả</option>
+                            <option value="ROLE_STUDENT">Sinh viên</option>
+                            <option value="ROLE_LECTURER">Giảng viên</option>
+                            <option value="ROLE_ADMIN">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcementFileUrl">ĐƯỜNG DẪN TỆP ĐÍNH KÈM</label>
+                        <input type="url" id="announcementFileUrl" placeholder="https://">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="announcementContent">NỘI DUNG *</label>
+                    <textarea id="announcementContent" rows="9" required></textarea>
+                </div>
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                    <input type="checkbox" id="announcementIsPinned">
+                    Ghim thông báo lên đầu danh sách
+                </label>
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button type="button" id="btnCancelAnnouncement" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thông báo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="viewAnnouncementModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 760px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header"><h3 id="viewAnnouncementTitle">Chi tiết thông báo</h3></div>
+            <div id="viewAnnouncementMeta" style="color: #64748b; font-size: 13px; margin-bottom: 16px;"></div>
+            <div id="viewAnnouncementContent" style="white-space: pre-wrap; line-height: 1.7; color: #334155;"></div>
+            <div id="viewAnnouncementFile" style="margin-top: 20px;"></div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+                <button type="button" id="btnCloseViewAnnouncement" class="btn btn-secondary">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin/announcements.js"></script>
+</body>
+</html>

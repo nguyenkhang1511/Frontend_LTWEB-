@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Người Dùng - FIT Topic Manager</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR MENU BÊN TRÁI -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item active"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <main class="main-wrapper">
+            <!-- Header trang -->
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Quản Lý Người Dùng</h1>
+                    <p style="color: #64748b; font-size: 14px;">Danh sách tài khoản sinh viên, giảng viên và quản trị viên</p>
+                </div>
+                <div class="header-actions">
+                    <button id="btnOpenCreateUser" onclick="openCreateModal()" class="btn btn-primary">
+                        <span>+</span> Tạo người dùng mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bộ lọc -->
+            <div class="filter-card" style="margin-bottom: 24px;">
+                <div class="filter-grid">
+                    <div class="form-group">
+                        <label>VAI TRÒ</label>
+                        <select id="filterRole">
+                            <option value="">Tất cả vai trò</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>BỘ MÔN</label>
+                        <select id="filterDepartmentId" class="form-control">
+                            <option value="">Tất cả bộ môn</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>TỪ KHÓA</label>
+                        <input type="text" id="filterKeyword" placeholder="Tìm theo tên, email, username, mã...">
+                    </div>
+
+                    <button onclick="loadUsers()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
+                        🔍 Tìm kiếm
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bảng dữ liệu -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>MÃ SV/GV</th>
+                            <th>HỌ VÀ TÊN</th>
+                            <th>TÊN ĐĂNG NHẬP</th>
+                            <th>EMAIL / SĐT</th>
+                            <th>VAI TRÒ</th>
+                            <th>BỘ MÔN / LỚP</th>
+                            <th>TRẠNG THÁI</th>
+                            <th style="text-align: right;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL TẠO / CẬP NHẬT NGƯỜI DÙNG -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="userModalTitle">Tạo Tài Khoản Mới</h3>
+            </div>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Mã SV / GV</label>
+                        <input type="text" id="userCode" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Họ và Tên</label>
+                        <input type="text" id="userFullName" required>
+                    </div>
+                </div>
+
+                <div class="form-row" id="userCreateCredentials">
+                    <div class="form-group">
+                        <label>Tên đăng nhập (*)</label>
+                        <input type="text" id="userUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mật khẩu (*)</label>
+                        <input type="password" id="userPassword" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" id="userPhone">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Vai trò</label>
+                        <select id="userRole">
+                            <option value="ROLE_STUDENT">Sinh viên</option>
+                            <option value="ROLE_LECTURER">Giảng viên</option>
+                            <option value="ROLE_DEPARTMENT_HEAD">Trưởng bộ môn</option>
+                            <option value="ROLE_DEAN">Trưởng khoa</option>
+                            <option value="ROLE_ADMIN">Quản trị viên</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bộ môn</label>
+                        <select id="userDeptId" class="form-control">
+                            <option value="">Chọn bộ môn...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lớp sinh viên</label>
+                    <input type="text" id="userStudentClass">
+                </div>
+
+                <div class="form-group" id="userActiveGroup">
+                    <label>Trạng thái</label>
+                    <select id="userActive">
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Đã khóa</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+                    <button type="button" onclick="closeUserModal()" class="btn btn-secondary">Hủy</button>
+                    <button id="userSaveButton" type="submit" class="btn btn-primary">Tạo Mới</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin/users.js"></script>
+</body>
+</html>

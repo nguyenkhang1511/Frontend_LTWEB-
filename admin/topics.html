@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đề Tài - FIT Topic Manager</title>
+    <link rel="stylesheet" href="../css/style.css?v=4">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR MENU BÊN TRÁI -->
+        <aside class="sidebar">
+            <div class="sidebar-brand" style="padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="font-size: 28px;">🎓</div>
+                <div style="font-weight: bold; color: #fff; margin-top: 4px;">FIT TOPIC</div>
+                <small style="color: #93c5fd; font-size: 11px;">CỔNG QUẢN LÝ ĐỀ TÀI</small>
+            </div>
+
+            <div class="sidebar-category-title">TRANG CÁ NHÂN</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="profile.html"><span>👤</span> Thông tin cá nhân</a></li>
+            </ul>
+            <div class="sidebar-category-title">QUẢN LÝ HỆ THỐNG</div>
+            <ul class="sidebar-menu" style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item"><a href="users.html"><span>👥</span> Quản lý người dùng</a></li>
+                <li class="sidebar-menu-item"><a href="departments.html"><span>🏢</span> Quản lý bộ môn</a></li>
+                <li class="sidebar-menu-item"><a href="periods.html"><span>📅</span> Đợt đăng ký đề tài</a></li>
+                <li class="sidebar-menu-item active"><a href="topics.html"><span>📚</span> Quản lý đề tài</a></li>
+                <li class="sidebar-menu-item"><a href="groups.html"><span>👨‍🎓</span> Quản lý nhóm SV</a></li>
+                <li class="sidebar-menu-item"><a href="reviewers.html"><span>🔍</span> Phân công GVPB</a></li>
+                <li class="sidebar-menu-item"><a href="councils.html"><span>🏛️</span> Hội đồng bảo vệ</a></li>
+                <li class="sidebar-menu-item"><a href="results.html"><span>📢</span> Công bố kết quả</a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html"><span>📣</span> Quản lý thông báo</a></li>
+            </ul>
+
+            <div style="padding: 16px; margin-top: auto;">
+                <a href="../index.html" style="color: #fca5a5; text-decoration: none; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+                    <span>🚪</span> Đăng xuất
+                </a>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH BÊN PHẢI -->
+        <main class="main-wrapper">
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div class="page-title">
+                    <h1 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Quản Lý Đề Tài</h1>
+                    <p style="color: #64748b; font-size: 14px;">Quản lý đề tài theo bộ môn, giảng viên đề xuất, trưởng bộ môn phê duyệt và công bố</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="openCreateTopicModal()" class="btn btn-primary">
+                        <span>+</span> Đề xuất đề tài mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- BỘ LỌC TÌM KIẾM -->
+            <div class="filter-card" style="margin-bottom: 24px;">
+                <div class="filter-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr auto;">
+                    <div class="form-group">
+                        <label>ĐỢT ĐĂNG KÝ</label>
+                        <select id="filterPeriodId" class="form-control">
+                            <option value="">Tất cả đợt</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>BỘ MÔN</label>
+                        <select id="filterDepartmentId" class="form-control">
+                            <option value="">Tất cả bộ môn</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>TRẠNG THÁI DUYỆT</label>
+                        <div class="custom-multiselect-container" id="filterStatusContainer">
+                            <div class="custom-multiselect-box" id="filterStatusTrigger" tabindex="0">
+                                <span class="custom-select-label" id="filterStatusLabel">Tất cả trạng thái</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="custom-multiselect-dropdown" id="filterStatusDropdown">
+                                <div class="multiselect-search-wrapper">
+                                    <input type="text" class="multiselect-search-input" id="filterStatusSearchInput" placeholder="Tìm kiếm trạng thái..." autocomplete="off">
+                                </div>
+                                <div class="multiselect-options-list" id="filterStatusOptionsList"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="filterStatus" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label>TỪ KHÓA</label>
+                        <input type="text" id="filterKeyword" placeholder="Tên đề tài, mã đề tài...">
+                    </div>
+
+                    <button onclick="loadTopics()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
+                        🔍 Tìm kiếm
+                    </button>
+                </div>
+            </div>
+
+            <!-- BẢNG DỮ LIỆU ĐỀ TÀI -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>MÃ ĐT</th>
+                            <th>TÊN ĐỀ TÀI (VI / EN)</th>
+                            <th>BỘ MÔN / ĐỢT</th>
+                            <th>GVHD CHÍNH / ĐỒNG</th>
+                            <th>SV TỐI ĐA</th>
+                            <th>TRẠNG THÁI</th>
+                            <th style="text-align: right;">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topicTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL 1: ĐỀ XUẤT ĐỀ TÀI MỚI (POST /api/topics) -->
+    <div id="createTopicModal" class="modal">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3>Đề Xuất Đề Tài Mới</h3>
+            </div>
+            <form id="createTopicForm">
+                <div class="form-group">
+                    <label>Tên đề tài Tiếng Việt (*)</label>
+                    <input type="text" id="createTitleVi" placeholder="Xây dựng hệ thống quản lý..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tên đề tài Tiếng Anh</label>
+                    <input type="text" id="createTitleEn" placeholder="Development of management system...">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Đợt đăng ký (*)</label>
+                        <select id="createPeriodId" class="form-control" required>
+                            <option value="">Chọn đợt đăng ký...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bộ môn (*)</label>
+                        <select id="createDepartmentId" class="form-control" required>
+                            <option value="">Chọn bộ môn...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Số SV tối đa (*)</label>
+                        <input type="number" id="createMaxStudents" min="1" max="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>GV đồng hướng dẫn (Nếu có)</label>
+                        <select id="createCoAdvisorId" class="form-control">
+                            <option value="">Không có giảng viên đồng hướng dẫn</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả đề tài</label>
+                    <textarea id="createDescription" rows="2" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Yêu cầu kỹ thuật</label>
+                    <textarea id="createRequirements" rows="2" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+                    <button type="button" onclick="closeModal('createTopicModal')" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Gửi Đề Xuất</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CẬP NHẬT ĐỀ TÀI (PUT /api/topics/{id}) -->
+    <div id="editTopicModal" class="modal">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3>Chỉnh Sửa Thông Tin Đề Tài</h3>
+            </div>
+            <form id="editTopicForm">
+                <input type="hidden" id="editTopicId">
+
+                <div class="form-group">
+                    <label>Tên đề tài Tiếng Việt (*)</label>
+                    <input type="text" id="editTitleVi" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tên đề tài Tiếng Anh</label>
+                    <input type="text" id="editTitleEn">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Bộ môn (*)</label>
+                        <select id="editDepartmentId" class="form-control" required>
+                            <option value="">Chọn bộ môn...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Số SV tối đa (*)</label>
+                        <input type="number" id="editMaxStudents" min="1" max="5" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>GV đồng hướng dẫn</label>
+                    <select id="editCoAdvisorId" class="form-control">
+                        <option value="">Không có giảng viên đồng hướng dẫn</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả đề tài</label>
+                    <textarea id="editDescription" rows="2" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Yêu cầu kỹ thuật</label>
+                    <textarea id="editRequirements" rows="2" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+                    <button type="button" onclick="closeModal('editTopicModal')" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: TRƯỞNG BỘ MÔN PHÊ DUYỆT (PATCH /api/topics/{id}/approval) -->
+    <div id="approvalModal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h3>Phê Duyệt Đề Tài</h3>
+            </div>
+            <form id="approvalForm">
+                <input type="hidden" id="approvalTopicId">
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label>Quyết định phê duyệt (*)</label>
+                    <select id="approvalStatusSelect" onchange="toggleRejectionReason()" required>
+                        <option value="APPROVED">Đồng Ý / Phê Duyệt (APPROVED)</option>
+                        <option value="REJECTED">Từ Chối Đề Tài (REJECTED)</option>
+                        <option value="PENDING">Chờ Xem Xét Lại (PENDING)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="rejectionReasonGroup" style="display: none; margin-bottom: 20px;">
+                    <label>Lý do từ chối (*)</label>
+                    <textarea id="rejectionReason" rows="3" placeholder="Nhập lý do cần chỉnh sửa hoặc từ chối..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                    <button type="button" onclick="closeModal('approvalModal')" class="btn btn-secondary">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: XEM CHI TIẾT ĐỀ TÀI -->
+    <div id="detailTopicModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Chi Tiết Đề Tài</h3>
+            </div>
+            <div id="detailTopicContent" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+                <button type="button" onclick="closeModal('detailTopicModal')" class="btn btn-secondary">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/admin/topics.js?v=2"></script>
+</body>
+</html>
