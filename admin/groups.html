@@ -88,7 +88,10 @@
 
                     <div class="filter-group">
                         <label aria-hidden="true">&nbsp;</label>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-self: flex-end;">
                         <button type="submit" class="btn btn-secondary btn-filter">🔍 Lọc dữ liệu</button>
+                        <button type="button" onclick="resetFilters()" class="btn btn-secondary">Đặt lại</button>
+                    </div>
                     </div>
                 </form>
             </div>
@@ -150,6 +153,7 @@
 
     <!-- NHỐNG FILE SCRIPT -->
     <script src="../js/config.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="../js/admin/groups.js?v=2"></script>
 </body>
 </html>

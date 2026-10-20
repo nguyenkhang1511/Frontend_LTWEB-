@@ -70,7 +70,10 @@
                         </div>
                         <input type="hidden" id="filterPeriod">
                     </div>
-                    <button type="button" id="btnLoadResults" class="btn btn-secondary btn-filter" style="align-self: flex-end;">🔍 Xem kết quả</button>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-self: flex-end;">
+                        <button type="button" id="btnLoadResults" class="btn btn-secondary btn-filter" style="align-self: flex-end;">🔍 Xem kết quả</button>
+                        <button type="button" onclick="resetFilters()" class="btn btn-secondary">Đặt lại</button>
+                    </div>
                 </div>
             </div>
 
@@ -121,6 +124,7 @@
     </div>
 
     <script src="../js/config.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="../js/admin/results.js?v=2"></script>
 </body>
 </html>

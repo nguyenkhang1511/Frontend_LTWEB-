@@ -80,6 +80,11 @@ function amILeader(g) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const periodSelect = document.getElementById('periodSelect');
+    let defaultPeriodId = '';
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        periodSelect.value = defaultPeriodId;
+        loadGroup();
+    });
     const area = document.getElementById('groupArea');
     const errorEl = document.getElementById('groupLoadError');
 
@@ -112,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         periodSelect.innerHTML = periods.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
         const open = periods.find(p => p.status === 'PHASE2_STUDENT_REGISTRATION');
         periodSelect.value = (open || periods[0]).id;
+        defaultPeriodId = periodSelect.value;
         return true;
     }
 

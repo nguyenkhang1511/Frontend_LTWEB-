@@ -98,6 +98,13 @@ async function showPeriodDetail(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('typeFilter').value = '';
+        document.getElementById('statusFilter').value = '';
+        document.getElementById('periodSearch').value = '';
+        loadPeriods();
+    });
+
     const tbody = document.getElementById('periodTableBody');
     const typeFilter = document.getElementById('typeFilter');
     const statusFilter = document.getElementById('statusFilter');
@@ -117,9 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = searchInput.value.trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput.value);
         const list = periodsCache.filter(p =>
-            !kw || [p.name, p.semester, p.academicYear].some(v => String(v || '').toLowerCase().includes(kw)));
+            !kw || [p.name, p.semester, p.academicYear].some(v => removeVietnameseTones(v).includes(kw)));
 
         tbody.innerHTML = list.length ? list.map((p, i) => `
             <tr style="border-top: 1px solid #e2e8f0;">

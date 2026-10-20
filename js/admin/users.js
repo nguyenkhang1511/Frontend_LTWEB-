@@ -89,7 +89,6 @@ async function loadUsers() {
 
     if (role) queryParams.append('role', role);
     if (departmentId) queryParams.append('departmentId', departmentId);
-    if (keyword) queryParams.append('keyword', keyword);
 
     try {
         const response = await apiFetch(`/users?${queryParams.toString()}`, {
@@ -111,7 +110,10 @@ async function loadUsers() {
                 'Tất cả vai trò',
                 formatRoleName
             );
-            renderUserTable(users);
+            const query = removeVietnameseTones(keyword);
+            renderUserTable(users.filter(user => !query ||
+                [user.fullName, user.username, user.email, user.code]
+                    .some(value => removeVietnameseTones(value).includes(query))));
         } else {
             showTableMessage(`❌ Lỗi: ${result.message || 'Không thể tải danh sách người dùng'}`);
         }
@@ -311,3 +313,14 @@ window.openCreateModal = openCreateModal;
 window.closeUserModal = closeUserModal;
 window.loadUsers = loadUsers;
 window.loadLecturersByDept = loadLecturersByDept;
+
+function resetFilters() {
+    ['filterRole', 'filterDepartmentId'].forEach(id => {
+        const select = document.getElementById(id);
+        select.value = '';
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    document.getElementById('filterKeyword').value = '';
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadUsers();
+}

@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function render() {
         const kw = (typeof removeVietnameseTones === 'function')
             ? removeVietnameseTones(searchInput?.value || '')
-            : (searchInput?.value || '').trim().toLowerCase();
+            : removeVietnameseTones(searchInput?.value);
         const selectedDept = deptFilter?.value || '';
 
         const list = topicsCache.filter(t => {

@@ -77,6 +77,11 @@ async function showAnnouncement(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('annSearch').value = '';
+        render();
+    });
+
     const area = document.getElementById('annArea');
     const searchInput = document.getElementById('annSearch');
     const errorEl = document.getElementById('annLoadError');
@@ -93,9 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = searchInput.value.trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput.value);
         const list = announcementsCache
-            .filter(a => !kw || [a.title, a.content, a.authorName].some(v => String(v || '').toLowerCase().includes(kw)))
+            .filter(a => !kw || [a.title, a.content, a.authorName].some(v => removeVietnameseTones(v).includes(kw)))
             .sort((x, y) => (isPinned(y) - isPinned(x)) || (new Date(y.createdAt) - new Date(x.createdAt)));
 
         if (!list.length) {

@@ -66,6 +66,14 @@ async function deleteTopic(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('periodFilter').value = '';
+        document.getElementById('approvalFilter').value = '';
+        document.getElementById('topicSearch').value = '';
+        document.getElementById('onlyMine').checked = true;
+        loadTopics();
+    });
+
     const tbody = document.getElementById('topicTableBody');
     const periodFilter = document.getElementById('periodFilter');
     const approvalFilter = document.getElementById('approvalFilter');
@@ -80,12 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = searchInput.value.trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput.value);
         const list = topicsCache.filter(t =>
             (!onlyMine.checked || isMyTopic(t)) &&
             (!approvalFilter.value || t.approvalStatus === approvalFilter.value) &&
             (!kw || [t.code, t.titleVi, t.titleEn, t.primaryAdvisorName, t.coAdvisorName]
-                .some(v => String(v || '').toLowerCase().includes(kw))));
+                .some(v => removeVietnameseTones(v).includes(kw))));
 
         tbody.innerHTML = list.length ? list.map((t, i) => `
             <tr style="border-top: 1px solid #e2e8f0;">

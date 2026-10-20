@@ -1638,6 +1638,53 @@ body {
     text-decoration: underline;
 }
 
+.table-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.table-pagination[hidden], table tbody tr[hidden] {
+    display: none !important;
+}
+
+.table-pagination-size, .table-pagination-pages {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.table-pagination-size select, .table-pagination-button {
+    width: auto;
+    min-height: 34px;
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #fff;
+    color: #334155;
+    font: inherit;
+}
+
+.table-pagination-button { cursor: pointer; }
+.table-pagination-button:hover:not(:disabled) { background: #f1f5f9; }
+.table-pagination-button[aria-current="page"] {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #fff;
+}
+.table-pagination-button:disabled { opacity: 0.45; cursor: default; }
+.table-pagination-button:focus-visible, .table-pagination-size select:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
 /* RESPONSIVE */
 @media (max-width: 960px) {
     .auth-banner {

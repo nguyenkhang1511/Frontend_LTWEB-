@@ -454,7 +454,6 @@ async function loadTopics() {
     if (periodId) queryParams.append('periodId', periodId);
     if (departmentId) queryParams.append('departmentId', departmentId);
     if (status) queryParams.append('approvalStatus', status);
-    if (keyword) queryParams.append('keyword', keyword);
 
     try {
         const response = await apiFetch(`/topics?${queryParams.toString()}`, {
@@ -471,6 +470,10 @@ async function loadTopics() {
             if (status) {
                 topics = topics.filter(t => (t.approvalStatus || t.status) === status);
             }
+            const query = removeVietnameseTones(keyword);
+            topics = topics.filter(topic => !query ||
+                [topic.code, topic.titleVi, topic.titleEn, topic.primaryAdvisorName]
+                    .some(value => removeVietnameseTones(value).includes(query)));
             renderTopicsTable(topics);
         } else {
             showTableMessage(`❌ Lỗi: ${result.message || 'Không thể tải danh sách'}`);
@@ -768,3 +771,17 @@ window.toggleRejectionReason = toggleRejectionReason;
 window.deleteTopic = deleteTopic;
 window.openDetailTopicModal = openDetailTopicModal;
 window.closeModal = closeModal;
+function resetFilters() {
+    document.getElementById('filterPeriodId').value = '';
+    document.getElementById('filterDepartmentId').value = '';
+    document.getElementById('filterStatus').value = '';
+    document.getElementById('filterKeyword').value = '';
+    document.getElementById('filterStatusSearchInput').value = '';
+    selectedFilterPeriodId = '';
+    selectedFilterDepartmentId = '';
+    selectedFilterStatus = '';
+    filterStatusSearchQuery = '';
+    renderFilterStatusDropdown();
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadTopics();
+}

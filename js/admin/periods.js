@@ -325,3 +325,9 @@ function openCreateModal() {
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
+function resetFilters() {
+    document.getElementById('filterType').value = '';
+    document.getElementById('filterStatus').value = '';
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadRegistrationPeriods();
+}

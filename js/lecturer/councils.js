@@ -5,6 +5,12 @@
 //      GET /api/results/topic/{id}          -> xem kết quả tổng hợp
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('councilPeriod').value = '';
+        document.getElementById('onlyMyCouncils').checked = true;
+        loadCouncils();
+    });
+
     const periodSelect = document.getElementById('councilPeriod');
     const onlyMine = document.getElementById('onlyMyCouncils');
     const area = document.getElementById('councilsArea');
@@ -134,7 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadCouncils() {
         showError('');
         const periodId = periodSelect.value;
-        if (!periodId) return;
+        if (!periodId) {
+            councils = [];
+            area.textContent = 'Vui lòng chọn đợt đăng ký.';
+            return;
+        }
         area.innerHTML = `<div style="${card} color:#64748b;">Đang tải...</div>`;
         const { ok, result } = await callAPI('/councils/period/' + encodeURIComponent(periodId), { method: 'GET' });
         if (ok) {

@@ -4,6 +4,11 @@
 //      POST /api/grades/advisor        -> AdvisorGradeRequest { topicId*, score*, feedback }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('gradingSearch').value = '';
+        render();
+    });
+
     const area = document.getElementById('gradingArea');
     const searchInput = document.getElementById('gradingSearch');
     const errorEl = document.getElementById('gradingLoadError');
@@ -16,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = searchInput.value.trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput.value);
         const list = items.filter(({ topic: t }) => !kw ||
-            [t.code, t.titleVi, t.assignedGroupName].some(v => String(v || '').toLowerCase().includes(kw)));
+            [t.code, t.titleVi, t.assignedGroupName].some(v => removeVietnameseTones(v).includes(kw)));
 
         if (!list.length) {
             area.innerHTML = `<div style="${card} color:#64748b;">Chưa có đề tài nào cần chấm. Đề tài chỉ hiện ở đây khi đã có nhóm sinh viên nhận.</div>`;

@@ -35,7 +35,6 @@ async function loadAnnouncements() {
     const targetRole = document.getElementById('filterTargetRole').value;
     const title = document.getElementById('searchTitle').value.trim();
     if (targetRole && targetRole !== 'ALL') params.set('targetRole', targetRole);
-    if (title) params.set('title', title);
 
     setAnnouncementTableMessage('Đang tải danh sách thông báo...');
     try {
@@ -50,7 +49,9 @@ async function loadAnnouncements() {
             role => roleLabels[role] || role,
             'ALL'
         );
-        renderAnnouncements(announcements);
+        const queryText = removeVietnameseTones(title);
+        renderAnnouncements(announcements.filter(announcement => !queryText ||
+            removeVietnameseTones(announcement.title).includes(queryText)));
     } catch (error) {
         console.error('Lỗi tải thông báo:', error);
         setAnnouncementTableMessage(error.message || 'Không thể tải danh sách thông báo.', true);
@@ -257,4 +258,11 @@ function escapeHtml(value) {
         '"': '&quot;',
         "'": '&#39;'
     })[character]);
+}
+
+function resetFilters() {
+    document.getElementById('filterTargetRole').value = '';
+    document.getElementById('searchTitle').value = '';
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadAnnouncements();
 }

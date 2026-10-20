@@ -306,3 +306,13 @@ function closeResultDetailModal() {
 
 window.viewResultDetail = viewResultDetail;
 window.closeResultDetailModal = closeResultDetailModal;
+
+function resetFilters() {
+    document.getElementById('filterPeriod').value = '';
+    document.getElementById('filterPeriodSearchInput').value = '';
+    selectedPeriodId = '';
+    periodSearchQuery = '';
+    renderPeriodSelect();
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadPeriodResults();
+}

@@ -3,6 +3,12 @@
 // Dùng apiFetch (config.js) -> tự gắn Bearer token và tự chuyển về index.html khi 401.
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('deptSelect').value = '';
+        document.getElementById('searchInput').value = '';
+        loadLecturers();
+    });
+
     const tbody = document.getElementById('lecturerTableBody');
     const deptSelect = document.getElementById('deptSelect');
     const searchInput = document.getElementById('searchInput');
@@ -36,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = searchInput.value.trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput.value);
         const list = allLecturers.filter(l =>
             !kw || [l.fullName, l.code, l.email, l.phone, l.username]
-                .some(v => String(v || '').toLowerCase().includes(kw)));
+                .some(v => removeVietnameseTones(v).includes(kw)));
 
         if (list.length === 0) {
             tbody.innerHTML = '<tr><td colspan="100%" class="text-center py-4">Chưa có dữ liệu</td></tr>';

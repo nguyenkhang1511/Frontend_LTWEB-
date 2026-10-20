@@ -377,3 +377,17 @@ window.selectPeriodFilter = selectPeriodFilter;
 window.selectStatusFilter = selectStatusFilter;
 window.viewGroupDetail = viewGroupDetail;
 window.closeGroupModal = closeGroupModal;
+function resetFilters() {
+    document.getElementById('filterPeriod').value = '';
+    document.getElementById('filterStatus').value = '';
+    document.getElementById('filterPeriodSearchInput').value = '';
+    document.getElementById('filterStatusSearchInput').value = '';
+    selectedPeriodId = '';
+    selectedStatus = '';
+    filterPeriodSearchQuery = '';
+    filterStatusSearchQuery = '';
+    renderPeriodDropdown();
+    renderStatusDropdown();
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadGroups();
+}

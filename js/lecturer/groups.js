@@ -12,6 +12,13 @@ function isMyGroup(g) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('periodSelect').value = '';
+        document.getElementById('groupSearch').value = '';
+        document.getElementById('onlyMineGroups').checked = true;
+        loadGroups();
+    });
+
     const periodSelect = document.getElementById('periodSelect');
     const searchInput = document.getElementById('groupSearch');
     const onlyMine = document.getElementById('onlyMineGroups');
@@ -26,12 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = searchInput.value.trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput.value);
         const list = groupsCache.filter(g => {
             if (onlyMine.checked && !isMyGroup(g)) return false;
             if (!kw) return true;
-            const text = [g.name, g.code, g.topicTitleVi, g.leaderName]
-                .concat((g.members || []).map(m => m.studentName + ' ' + m.studentCode)).join(' ').toLowerCase();
+            const text = removeVietnameseTones([g.name, g.code, g.topicTitleVi, g.leaderName]
+                .concat((g.members || []).map(m => m.studentName + ' ' + m.studentCode)).join(' '));
             return text.includes(kw);
         });
 
@@ -83,7 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadGroups() {
         showError('');
         const periodId = periodSelect.value;
-        if (!periodId) return;
+        if (!periodId) {
+            groupsCache = [];
+            area.textContent = 'Vui lòng chọn đợt đăng ký.';
+            return;
+        }
         area.innerHTML = `<div style="${card} color:#64748b;">Đang tải...</div>`;
         const { ok, result } = await callAPI('/groups?periodId=' + encodeURIComponent(periodId), { method: 'GET' });
         if (ok) {

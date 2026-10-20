@@ -93,9 +93,12 @@
                         <input type="text" id="filterKeyword" placeholder="Tên đề tài, mã đề tài...">
                     </div>
 
-                    <button onclick="loadTopics()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-self: flex-end;">
+                        <button onclick="loadTopics()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
                         🔍 Tìm kiếm
                     </button>
+                        <button type="button" onclick="resetFilters()" class="btn btn-secondary">Đặt lại</button>
+                    </div>
                 </div>
             </div>
 
@@ -285,6 +288,7 @@
     </div>
 
     <script src="../js/config.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="../js/admin/topics.js?v=2"></script>
 </body>
 </html>

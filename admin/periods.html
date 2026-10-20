@@ -71,9 +71,12 @@
                         </select>
                     </div>
 
-                    <button onclick="loadRegistrationPeriods()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-self: flex-end;">
+                        <button onclick="loadRegistrationPeriods()" class="btn btn-secondary btn-filter" style="align-self: flex-end;">
                         🔍 Lọc dữ liệu
                     </button>
+                        <button type="button" onclick="resetFilters()" class="btn btn-secondary">Đặt lại</button>
+                    </div>
                 </div>
             </div>
 
@@ -290,6 +293,7 @@
     </div>
 
     <script src="../js/config.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="../js/admin/periods.js"></script>
 </body>
 </html>

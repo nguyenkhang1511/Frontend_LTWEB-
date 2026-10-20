@@ -75,6 +75,13 @@ async function showTopicDetail(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnResetFilters').addEventListener('click', () => {
+        document.getElementById('periodFilter').value = '';
+        document.getElementById('deptFilter').value = '';
+        document.getElementById('topicSearch').value = '';
+        loadTopics();
+    });
+
     const tbody = document.getElementById('topicTableBody');
     const periodFilter = document.getElementById('periodFilter');
     const deptFilter = document.getElementById('deptFilter');
@@ -89,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function render() {
-        const kw = (searchInput?.value || '').trim().toLowerCase();
+        const kw = removeVietnameseTones(searchInput?.value);
         const selectedDept = deptFilter?.value || '';
 
         const list = topicsCache.filter(t => {
             const matchDept = !selectedDept || String(t.departmentId) === String(selectedDept);
             const matchKw = !kw || [t.code, t.titleVi, t.titleEn, t.primaryAdvisorName, t.coAdvisorName, t.departmentName]
-                .some(v => String(v || '').toLowerCase().includes(kw));
+                .some(v => removeVietnameseTones(v).includes(kw));
             return matchDept && matchKw;
         });
 

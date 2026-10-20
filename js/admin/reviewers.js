@@ -410,3 +410,13 @@ window.selectAssignReviewer = selectAssignReviewer;
 window.loadReviewerAssignments = loadReviewerAssignments;
 window.openAssignReviewerModal = openAssignReviewerModal;
 window.closeAssignReviewerModal = closeAssignReviewerModal;
+
+function resetFilters() {
+    document.getElementById('filterPeriodId').value = '';
+    document.getElementById('filterPeriodSearchInput').value = '';
+    selectedFilterPeriodId = '';
+    filterPeriodSearchQuery = '';
+    renderFilterPeriodSelect();
+    document.querySelectorAll('.filter-card .custom-multiselect-dropdown.open').forEach(dropdown => dropdown.classList.remove('open'));
+    loadReviewerAssignments();
+}

@@ -62,7 +62,10 @@
                         <label for="searchTitle">TÌM THEO TIÊU ĐỀ</label>
                         <input type="search" id="searchTitle" placeholder="Nhập tiêu đề thông báo">
                     </div>
-                    <button type="button" id="btnSearchAnnouncements" class="btn btn-secondary btn-filter" style="align-self: flex-end;">Tìm kiếm</button>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-self: flex-end;">
+                        <button type="button" id="btnSearchAnnouncements" class="btn btn-secondary btn-filter" style="align-self: flex-end;">Tìm kiếm</button>
+                        <button type="button" onclick="resetFilters()" class="btn btn-secondary">Đặt lại</button>
+                    </div>
                 </div>
             </section>
 
@@ -139,6 +142,7 @@
     </div>
 
     <script src="../js/config.js"></script>
+    <script src="../js/pagination.js"></script>
     <script src="../js/admin/announcements.js"></script>
 </body>
 </html>
