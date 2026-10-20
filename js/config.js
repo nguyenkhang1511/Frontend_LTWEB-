@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8082/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 // Các thư mục con của từng cổng (cần '../' để quay về index.html)
 const PORTAL_FOLDERS = ['/admin/', '/student/', '/lecturer/'];
