@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Khởi tạo sự kiện Form Register
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
-        await loadRegisterDepartments();
+        loadRegisterDepartments();
         registerForm.addEventListener('submit', handleRegister);
         toggleStudentClassInput(); // Tự động ẩn/hiện ô lớp sinh viên đúng trạng thái ban đầu
     }
@@ -38,6 +38,8 @@ async function loadRegisterDepartments() {
         );
     } catch (error) {
         console.error('Lỗi khi tải danh sách bộ môn đăng ký:', error);
+        const status = document.getElementById('departmentStatus');
+        if (status) status.textContent = 'Không thể tải danh sách bộ môn. Bạn vẫn có thể đăng ký và bổ sung sau.';
     }
 }
 
@@ -100,6 +102,13 @@ async function handleLogin(e) {
 async function handleRegister(e) {
     e.preventDefault();
 
+    const form = document.getElementById('registerForm');
+    for (const id of ['regUsername', 'fullName', 'email']) {
+        const input = document.getElementById(id);
+        input.value = input.value.trim();
+    }
+    if (!form.reportValidity()) return;
+
     // Lấy giá trị ID Bộ môn an toàn, tránh lỗi parseInt bị NaN khi để trống
     const deptVal = document.getElementById('departmentId')?.value;
 
@@ -108,11 +117,14 @@ async function handleRegister(e) {
         password: document.getElementById('regPassword').value,
         fullName: document.getElementById('fullName').value.trim(),
         email: document.getElementById('email').value.trim(),
-        phone: document.getElementById('phone').value.trim(),
-        code: document.getElementById('code').value.trim(),
+        phone: document.getElementById('phone').value.trim() || null,
+        code: document.getElementById('code').value.trim() || null,
         role: document.getElementById('role').value,
-        departmentId: deptVal ? parseInt(deptVal) : null, // Gán null nếu người dùng để trống
-        studentClass: document.getElementById('studentClass')?.value.trim() || ''
+        departmentId: document.getElementById('role').value === 'ROLE_LECTURER' && deptVal
+            ? Number(deptVal) : null,
+        studentClass: document.getElementById('role').value === 'ROLE_STUDENT'
+            ? document.getElementById('studentClass')?.value.trim() || null
+            : null
     };
 
     try {
@@ -128,7 +140,10 @@ async function handleRegister(e) {
             alert('Đăng ký tài khoản thành công! Hãy đăng nhập.');
             window.location.href = 'index.html';
         } else {
-            alert(result.message || 'Đăng ký thất bại!');
+            const errors = result.data && typeof result.data === 'object'
+                ? Object.values(result.data).filter(value => typeof value === 'string')
+                : [];
+            alert(errors.length ? errors.join('\n') : result.message || 'Đăng ký thất bại!');
         }
     } catch (error) {
         console.error('Lỗi khi đăng ký:', error);
@@ -136,19 +151,20 @@ async function handleRegister(e) {
     }
 }
 
-// Dynamic Ẩn/Hiện ô Lớp Sinh Viên theo Role (Đã kiểm tra null an toàn)
+// Hiển thị lớp cho sinh viên và bộ môn cho giảng viên.
 function toggleStudentClassInput() {
     const roleEl = document.getElementById('role');
     const group = document.getElementById('studentClassGroup');
+    const departmentGroup = document.getElementById('departmentGroup');
+    if (!roleEl) return;
 
-    // Kiểm tra an toàn: Nếu không tìm thấy phần tử ở trang hiện tại thì dừng
-    if (!roleEl || !group) return;
-
-    if (roleEl.value === 'ROLE_LECTURER') {
-        group.style.display = 'none';
-    } else {
-        group.style.display = 'block';
-    }
+    const isLecturer = roleEl.value === 'ROLE_LECTURER';
+    if (group) group.style.display = isLecturer ? 'none' : 'flex';
+    if (departmentGroup) departmentGroup.style.display = isLecturer ? 'flex' : 'none';
+    const departmentSelect = document.getElementById('departmentId');
+    if (departmentSelect) departmentSelect.disabled = !isLecturer;
+    const studentClass = document.getElementById('studentClass');
+    if (studentClass) studentClass.disabled = isLecturer;
 }
 
 // ==========================================

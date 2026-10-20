@@ -1505,6 +1505,25 @@ body {
     background-size: 16px 16px;
 }
 
+.register-page .input-control select {
+    height: 46px !important;
+    padding: 0 40px 0 44px !important;
+    background-color: #f8fafc;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: normal;
+}
+
+.register-page .input-control > .input-icon {
+    width: 18px;
+    text-align: center;
+}
+
+#departmentStatus:empty {
+    display: none;
+}
+
 .login-page .input-control input::placeholder {
     color: #94a3b8;
     font-weight: 400;

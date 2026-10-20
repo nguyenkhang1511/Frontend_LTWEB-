@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=20261020-register">
 </head>
 <body class="login-page register-page">
     <div class="auth-wrapper">
@@ -72,7 +72,7 @@
                             <label for="regUsername">Tên đăng nhập <span class="required-mark">*</span></label>
                             <div class="input-control">
                                 <i class="fa-regular fa-user input-icon"></i>
-                                <input type="text" id="regUsername" placeholder="Ví dụ: nguyenvana" required autocomplete="username">
+                                <input type="text" id="regUsername" minlength="3" maxlength="50" placeholder="Ví dụ: nguyenvana" required autocomplete="username">
                             </div>
                         </div>
 
@@ -80,7 +80,7 @@
                             <label for="regPassword">Mật khẩu <span class="required-mark">*</span></label>
                             <div class="input-control">
                                 <i class="fa-solid fa-lock input-icon"></i>
-                                <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự" required autocomplete="new-password">
+                                <input type="password" id="regPassword" minlength="6" placeholder="Tối thiểu 6 ký tự" required autocomplete="new-password">
                                 <button type="button" class="btn-toggle-password" id="toggleRegPasswordBtn" title="Hiện/ẩn mật khẩu" tabindex="-1">
                                     <i class="fa-regular fa-eye" id="toggleRegPasswordIcon"></i>
                                 </button>
@@ -108,18 +108,18 @@
 
                     <div class="form-row-2col">
                         <div class="form-group-field">
-                            <label for="phone">Số điện thoại <span class="required-mark">*</span></label>
+                            <label for="phone">Số điện thoại (không bắt buộc)</label>
                             <div class="input-control">
                                 <i class="fa-solid fa-phone input-icon"></i>
-                                <input type="tel" id="phone" placeholder="Ví dụ: 0912345678" required>
+                                <input type="tel" id="phone" placeholder="Ví dụ: 0912345678">
                             </div>
                         </div>
 
                         <div class="form-group-field">
-                            <label for="code">Mã SV / GV (code) <span class="required-mark">*</span></label>
+                            <label for="code">Mã SV / GV (không bắt buộc)</label>
                             <div class="input-control">
                                 <i class="fa-solid fa-hashtag input-icon"></i>
-                                <input type="text" id="code" placeholder="Ví dụ: 2001234" required>
+                                <input type="text" id="code" placeholder="Ví dụ: 2001234">
                             </div>
                         </div>
                     </div>
@@ -127,9 +127,9 @@
                     <div class="form-row-2col">
                         <div class="form-group-field" id="roleGroup">
                             <label for="role">Vai trò tài khoản <span class="required-mark">*</span></label>
-                            <div class="input-control">
+                            <div class="input-control" style="padding-left: 38px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px;">
                                 <i class="fa-solid fa-user-tag input-icon"></i>
-                                <select id="role" onchange="toggleStudentClassInput()">
+                                <select required id="role" style="height: 43px !important; min-width: 0; padding-left: 14px !important; padding-right: 40px !important; text-indent: 0 !important; border: 0; border-radius: 0 10px 10px 0; background-color: transparent;" onchange="toggleStudentClassInput()">
                                     <option value="ROLE_STUDENT">Sinh viên (STUDENT)</option>
                                     <option value="ROLE_LECTURER">Giảng viên (LECTURER)</option>
                                 </select>
@@ -143,6 +143,17 @@
                                 <input type="text" id="studentClass" placeholder="Ví dụ: DHCNTT17A">
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group-field" id="departmentGroup" style="display: none;">
+                        <label for="departmentId">Bộ môn (không bắt buộc)</label>
+                        <div class="input-control" style="padding-left: 38px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px;">
+                            <i class="fa-solid fa-building-columns input-icon"></i>
+                            <select id="departmentId" style="height: 43px !important; min-width: 0; padding-left: 14px !important; padding-right: 40px !important; text-indent: 0 !important; border: 0; border-radius: 0 10px 10px 0; background-color: transparent;" aria-describedby="departmentStatus">
+                                <option value="">Chọn bộ môn...</option>
+                            </select>
+                        </div>
+                        <small id="departmentStatus" role="status"></small>
                     </div>
 
                     <button type="submit" id="btnRegister" class="btn-auth-submit">
@@ -159,7 +170,7 @@
     </div>
 
     <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/auth.js?v=20261020-register-role"></script>
     <script>
         // Toggle ẩn/hiện mật khẩu form đăng ký
         const toggleRegBtn = document.getElementById('toggleRegPasswordBtn');
