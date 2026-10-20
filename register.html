@@ -2,75 +2,177 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng Ký Tài Khoản</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Tài Khoản - Hệ thống Quản lý Đề tài</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="card card-wide">
-        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
-        <form id="registerForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="regUsername">Tên đăng nhập</label>
-                    <input type="text" id="regUsername" required>
+<body class="login-page register-page">
+    <div class="auth-wrapper">
+        <!-- Cột trái: Banner giới thiệu đồng bộ với trang login -->
+        <div class="auth-banner">
+            <div class="banner-overlay"></div>
+            <div class="banner-content">
+                <div class="banner-badge">
+                    <i class="fa-solid fa-user-plus"></i> Khởi tạo tài khoản mới
                 </div>
-                <div class="form-group">
-                    <label for="regPassword">Mật khẩu</label>
-                    <input type="password" id="regPassword" required>
+                <h1 class="banner-title">Tham gia Hệ thống Quản lý Đề tài</h1>
+                <p class="banner-desc">Đăng ký để bắt đầu đăng ký đề tài nghiên cứu, kết nối cùng giảng viên hướng dẫn hoặc thực hiện công tác quản lý chuyên môn.</p>
+                
+                <div class="banner-features">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div>
+                            <h4>Dành cho Sinh viên</h4>
+                            <p>Đăng ký đề tài, nộp báo cáo tiến độ và theo dõi đánh giá của hội đồng</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <div>
+                            <h4>Dành cho Giảng viên</h4>
+                            <p>Đề xuất đề tài, quản lý nhóm sinh viên hướng dẫn và chấm điểm bảo vệ</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <div>
+                            <h4>Kích hoạt nhanh chóng</h4>
+                            <p>Liên kết trực tiếp với bộ môn và dữ liệu khoa công nghệ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="banner-footer">
+                    <span>© 2026 Topic Management System. All rights reserved.</span>
                 </div>
             </div>
+        </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="fullName">Họ và tên</label>
-                    <input type="text" id="fullName" required placeholder="Nguyễn Văn A">
+        <!-- Cột phải: Form Đăng ký -->
+        <div class="auth-form-container auth-form-container-register">
+            <div class="auth-card auth-card-register">
+                <div class="auth-card-header">
+                    <div class="brand-logo">
+                        <div class="brand-icon">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <span class="brand-name">PORTAL ĐỀ TÀI</span>
+                    </div>
+                    <h2 class="auth-title">Tạo tài khoản mới 🚀</h2>
+                    <p class="auth-subtitle">Điền đầy đủ thông tin để khởi tạo hồ sơ thành viên</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required placeholder="example@gmail.com">
+
+                <form id="registerForm" class="modern-form">
+                    <div class="form-row-2col">
+                        <div class="form-group-field">
+                            <label for="regUsername">Tên đăng nhập <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-regular fa-user input-icon"></i>
+                                <input type="text" id="regUsername" placeholder="Ví dụ: nguyenvana" required autocomplete="username">
+                            </div>
+                        </div>
+
+                        <div class="form-group-field">
+                            <label for="regPassword">Mật khẩu <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-solid fa-lock input-icon"></i>
+                                <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự" required autocomplete="new-password">
+                                <button type="button" class="btn-toggle-password" id="toggleRegPasswordBtn" title="Hiện/ẩn mật khẩu" tabindex="-1">
+                                    <i class="fa-regular fa-eye" id="toggleRegPasswordIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2col">
+                        <div class="form-group-field">
+                            <label for="fullName">Họ và tên <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-regular fa-id-card input-icon"></i>
+                                <input type="text" id="fullName" placeholder="Ví dụ: Nguyễn Văn A" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group-field">
+                            <label for="email">Địa chỉ Email <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-regular fa-envelope input-icon"></i>
+                                <input type="email" id="email" placeholder="example@email.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2col">
+                        <div class="form-group-field">
+                            <label for="phone">Số điện thoại <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-solid fa-phone input-icon"></i>
+                                <input type="tel" id="phone" placeholder="Ví dụ: 0912345678" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group-field">
+                            <label for="code">Mã SV / GV (code) <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-solid fa-hashtag input-icon"></i>
+                                <input type="text" id="code" placeholder="Ví dụ: 2001234" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2col">
+                        <div class="form-group-field" id="roleGroup">
+                            <label for="role">Vai trò tài khoản <span class="required-mark">*</span></label>
+                            <div class="input-control">
+                                <i class="fa-solid fa-user-tag input-icon"></i>
+                                <select id="role" onchange="toggleStudentClassInput()">
+                                    <option value="ROLE_STUDENT">Sinh viên (STUDENT)</option>
+                                    <option value="ROLE_LECTURER">Giảng viên (LECTURER)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group-field" id="studentClassGroup">
+                            <label for="studentClass">Lớp sinh viên (Class)</label>
+                            <div class="input-control">
+                                <i class="fa-solid fa-chalkboard-user input-icon"></i>
+                                <input type="text" id="studentClass" placeholder="Ví dụ: DHCNTT17A">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btnRegister" class="btn-auth-submit">
+                        <span>Hoàn tất Đăng ký</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="auth-card-footer">
+                    <p>Đã có tài khoản trên hệ thống? <a href="index.html" class="link-register">Đăng nhập ngay</a></p>
                 </div>
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <input type="tel" id="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="code">Mã SV / GV (code)</label>
-                    <input type="text" id="code" required placeholder="Ví dụ: 2001234">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="role">Vai trò</label>
-                    <select id="role" onchange="toggleStudentClassInput()">
-                        <option value="ROLE_STUDENT">Sinh viên (STUDENT)</option>
-                        <option value="ROLE_LECTURER">Giảng viên (LECTURER)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="departmentId">Bộ môn</label>
-                    <select id="departmentId" class="form-control" required>
-                        <option value="">Chọn bộ môn...</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group" id="studentClassGroup">
-                <label for="studentClass">Lớp sinh viên (studentClass)</label>
-                <input type="text" id="studentClass" placeholder="Ví dụ: DHCNTT17A">
-            </div>
-
-            <button type="submit" class="btn">Đăng Ký</button>
-        </form>
-        <p class="text-center">
-            Đã có tài khoản? <a href="index.html">Đăng nhập</a>
-        </p>
+        </div>
     </div>
 
     <script src="js/config.js"></script>
     <script src="js/auth.js"></script>
+    <script>
+        // Toggle ẩn/hiện mật khẩu form đăng ký
+        const toggleRegBtn = document.getElementById('toggleRegPasswordBtn');
+        const regPasswordInput = document.getElementById('regPassword');
+        const toggleRegIcon = document.getElementById('toggleRegPasswordIcon');
+        
+        if (toggleRegBtn && regPasswordInput && toggleRegIcon) {
+            toggleRegBtn.addEventListener('click', () => {
+                const isPassword = regPasswordInput.getAttribute('type') === 'password';
+                regPasswordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                toggleRegIcon.className = isPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+            });
+        }
+    </script>
 </body>
 </html>
