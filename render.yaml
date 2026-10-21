@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: topic-management-web
+    runtime: static
+    buildCommand: node scripts/build-render.cjs
+    staticPublishPath: ./dist
+    envVars:
+      - key: API_BASE_URL
+        sync: false
